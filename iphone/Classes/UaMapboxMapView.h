@@ -7,11 +7,7 @@
 #import "TiUIView.h"
 #import "Mapbox.h"
 
-@interface UaMapboxMapView : TiUIView<RMMapViewDelegate> {
-    
-    RMMapView *mapView;
-    
-}
+@interface UaMapboxMapView : TiUIView<RMMapViewDelegate> {}
 
 -(NSDictionary *)coordinateFromPoint:(CGPoint)point;
 
@@ -19,6 +15,8 @@
 -(void)addShape:(id)args;
 -(void)removeAnnotation:(id)args;
 -(void)removeAllAnnotations;
+-(void)setBoundariesSouthWest:(id)southWest northEast:(id)northEast;
+-(void)zoomToLatitudeLongitudeBoundsSouthWest:(id)southWest northEast:(id)northEast;
 
 @property (readonly) RMMapView* mapView;
 

@@ -7,6 +7,7 @@
 //
 
 #import "UaMapboxAnnotation.h"
+#import "TiUtils.h"
 
 @implementation UaMapboxAnnotation
 @synthesize proxy;

@@ -25,7 +25,30 @@
 @property (nonatomic, readwrite, assign) BOOL placed;
 @property (nonatomic, readonly) CGPoint offset;
 
+@property (nonatomic, copy) NSString *rightButtonImage;
+@property (nonatomic, copy) NSString *leftButtonImage;
+
+@property (nonatomic, copy) NSString *rightButtonColor;
+@property (nonatomic, copy) NSString *leftButtonColor;
+
+@property (nonatomic, copy) NSString *leftButtonBackgroundColor;
+@property (nonatomic, copy) NSString *rightButtonBackgroundColor;
+
+@property (nonatomic, copy) NSString *pinColor;
+@property (nonatomic, copy) NSString *icon;
+
 -(UaMapboxMarker *)marker;
 -(UaMapboxAnnotation *)annotationForMapView:(RMMapView *)map;
+
+- (NSString *)title;
+- (NSString *)subtitle;
+
+- (UIView *)leftAccessoryView;
+- (UIView *)rightAccessoryView;
+
+- (id)userInfo;
+
+extern NSInteger * const UaMapboxAnnotationAccessoryTagLeft;
+extern NSInteger * const UaMapboxAnnotationAccessoryTagRight;
 
 @end

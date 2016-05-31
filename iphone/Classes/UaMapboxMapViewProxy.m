@@ -13,6 +13,8 @@
 
 -(UaMapboxAnnotationProxy *)annotationFromArg:(id)arg
 {
+    NSLog(@"[MapboxMapViewProxy] annotationFromArg");
+    
     if ([arg isKindOfClass:[UaMapboxAnnotationProxy class]])
     {
         [(UaMapboxAnnotationProxy *)arg setDelegate:(UaMapboxMapView *)[self view]];
@@ -30,11 +32,24 @@
 
 -(void)addAnnotation:(id)arg
 {
+    NSLog(@"[MapboxMapViewProxy] addAnnotation");
+    
     ENSURE_SINGLE_ARG(arg, UaMapboxAnnotationProxy);
     TiThreadPerformOnMainThread(^{
         [(UaMapboxMapView *)[self view] addAnnotation:arg];
     }, NO);
 }
+
+
+-(void)setAnnotation:(id)args {
+    
+    NSLog(@"[MapboxMapViewProxy] setAnnotation");
+    
+    TiThreadPerformOnMainThread(^{
+        [(UaMapboxMapView *)[self view] addAnnotation:args];
+    }, NO);
+}
+
 
 -(void)addAnnotations:(id)args
 {
@@ -46,6 +61,7 @@
     }, NO);
 }
 
+
 -(void)addShape:(id)arg
 {
     ENSURE_SINGLE_ARG(arg, NSDictionary);
@@ -54,6 +70,7 @@
     }, NO);
 }
 
+
 -(void)removeAnnotation:(id)arg
 {
     ENSURE_SINGLE_ARG(arg, UaMapboxAnnotationProxy);
@@ -61,6 +78,7 @@
         [(UaMapboxMapView *)[self view] removeAnnotation:arg];
     }, NO);
 }
+
 
 -(void)removeAnnotations:(id)args
 {
@@ -72,6 +90,7 @@
     }, NO);
 }
 
+
 -(void)removeAllAnnotations:(id)unused
 {
     TiThreadPerformOnMainThread(^{
@@ -79,16 +98,18 @@
     }, NO);
 }
 
+
 - (void)selectAnnotation:(id)arg
 {
     ENSURE_SINGLE_ARG(arg, UaMapboxAnnotationProxy);
-    TiThreadPerformOnMainThread(^{
+	TiThreadPerformOnMainThread(^{
         RMMapView *map = [(UaMapboxMapView *)[self view] mapView];
         if (map != nil) {
-            [map selectAnnotation:[(UaMapboxAnnotationProxy *)arg annotationForMapView:map] animated:NO];
+            [map selectAnnotation:[(UaMapboxAnnotationProxy *)arg annotationForMapView:map] animated:YES];
         }
     }, NO);
 }
+
 
 - (void)deselectAnnotation:(id)arg
 {
@@ -101,6 +122,7 @@
     }, NO);
 }
 
+
 -(id)coordinateFromPoint:(id)args
 {
     NSNumber *x;
@@ -111,4 +133,40 @@
 
     return [(UaMapboxMapView *)[self view] coordinateFromPoint:CGPointMake([x floatValue], [y floatValue])];
 }
+
+
+- (void)setBounds:(id)args {
+	
+	NSDictionary *southWest;
+	NSDictionary *northEast;
+	
+	ENSURE_ARG_AT_INDEX(southWest, args, 0, NSDictionary);
+	ENSURE_ARG_AT_INDEX(northEast, args, 1, NSDictionary);
+	
+	TiThreadPerformOnMainThread(^{
+		UaMapboxMapView *map = (UaMapboxMapView *)[self view];
+		if (map != nil) {
+			[(UaMapboxMapView *)[self view] setBoundariesSouthWest:southWest northEast:northEast];
+		}
+	}, NO);
+}
+
+
+- (void)zoomToBounds:(id)args {
+	
+	NSDictionary *southWest;
+	NSDictionary *northEast;
+	
+	ENSURE_ARG_AT_INDEX(southWest, args, 0, NSDictionary);
+	ENSURE_ARG_AT_INDEX(northEast, args, 1, NSDictionary);
+	
+	TiThreadPerformOnMainThread(^{
+		UaMapboxMapView *map = (UaMapboxMapView *)[self view];
+		if (map != nil) {
+			[(UaMapboxMapView *)[self view] zoomToLatitudeLongitudeBoundsSouthWest:southWest northEast:northEast];
+		}
+	}, NO);
+}
+
+
 @end

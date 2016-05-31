@@ -10,8 +10,7 @@
 
 @class UaMapboxAnnotationProxy;
 
-@interface UaMapboxAnnotation : RMAnnotation {
-}
+@interface UaMapboxAnnotation : RMAnnotation {}
 
 @property (nonatomic, weak) UaMapboxAnnotationProxy* proxy;
 

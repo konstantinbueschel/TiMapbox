@@ -8,7 +8,5 @@
 
 #import "RMMarker.h"
 
-@interface UaMapboxMarker : RMMarker {
-}
-
+@interface UaMapboxMarker : RMMarker {}
 @end

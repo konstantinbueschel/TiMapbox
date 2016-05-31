@@ -12,6 +12,8 @@
 #import "TiBase.h"
 #import "TiHost.h"
 #import "TiUtils.h"
+#import "RMMapViewDelegate.h"
+#import "UaMapboxAnnotationProxy.h"
 
 @implementation UaMapboxModule
 
@@ -37,7 +39,7 @@
 	// you *must* call the superclass
 	[super startup];
 
-	NSLog(@"[INFO] %@ loaded",self);
+	NSLog(@"[INFO] [MapboxModule] %@ loaded",self);
 }
 
 -(void)shutdown:(id)sender
@@ -62,26 +64,6 @@
 	[super didReceiveMemoryWarning:notification];
 }
 
-#pragma mark Listener Notifications
-
--(void)_listenerAdded:(NSString *)type count:(int)count
-{
-	if (count == 1 && [type isEqualToString:@"my_event"])
-	{
-		// the first (of potentially many) listener is being added
-		// for event named 'my_event'
-	}
-}
-
--(void)_listenerRemoved:(NSString *)type count:(int)count
-{
-	if (count == 0 && [type isEqualToString:@"my_event"])
-	{
-		// the last listener called for event named 'my_event' has
-		// been removed, we can optionally clean up any resources
-		// since no body is listening at this point for that event
-	}
-}
 
 #pragma Public APIs
 
@@ -98,5 +80,12 @@
 MAKE_SYSTEM_STR(LINE_JOIN_MITER, kCALineJoinMiter);
 MAKE_SYSTEM_STR(LINE_JOIN_ROUND, kCALineJoinRound);
 MAKE_SYSTEM_STR(LINE_JOIN_BEVEL, kCALineJoinBevel);
+
+MAKE_SYSTEM_UINT(USER_TRACKING_MODE_NONE,			RMUserTrackingModeNone);
+MAKE_SYSTEM_UINT(USER_TRACKING_MODE_FOLLOW,			RMUserTrackingModeFollow);
+MAKE_SYSTEM_UINT(USER_TRACKING_MODE_FOLLOW_HEADING,	RMUserTrackingModeFollowWithHeading);
+
+MAKE_SYSTEM_UINT(ANNOTATION_ACCESSORY_TAG_LEFT, UaMapboxAnnotationAccessoryTagLeft);
+MAKE_SYSTEM_UINT(ANNOTATION_ACCESSORY_TAG_RIGHT, UaMapboxAnnotationAccessoryTagRight);
 
 @end
